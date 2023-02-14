@@ -22,7 +22,7 @@ Tansforming with 4-bytes combination
 
 ### 2.2 Assign width
 Trasnforming with number-bytes combination
-- *brd -n [number] [fileDir/fileName.suffix]*
+- *brd -n [number] [fileDir/fileName.suffix]*\
 number should be an arabic figures less than 1024 and size of input file
 
 ### 2.3 To text
