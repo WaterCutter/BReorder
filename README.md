@@ -5,6 +5,7 @@ Beyond Bytes Reorder
 
 - Reordering bytes in binary file
 - Transforming binary file into text file
+- Transforming text file into binary file
 
 ## 2 Usage
 
