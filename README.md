@@ -6,7 +6,19 @@ Beyond Bytes Reorder
 - Reordering bytes in binary file
 - Transforming binary file into text file
 - Transforming text file into binary file
+```c
+inline void run(){
+    //phaser
 
+    //checker
+
+    //deal loop
+        //reverser
+        //writer
+    //deal loop end
+
+};
+```
 ## 2 Usage
 
 ### 2.1 Default 
