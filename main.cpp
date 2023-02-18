@@ -85,7 +85,7 @@ public:
     inline void doReverse()
     {
         char tmpArray[_elemWidth] = {0};
-        for(int i=0;i<_combinWidth-_elemWidth;i++){
+        for(int i=0;i<(_combinWidth-1);i++){
             memcpy(tmpArray, (char*)&_array[i*_elemWidth], _elemWidth);
             memcpy((char*)&_array[i*_elemWidth], (char*)&_array[(_combinWidth-1-i)*_elemWidth], _elemWidth);
             memcpy((char*)&_array[(_combinWidth-1-i)*_elemWidth], tmpArray, _elemWidth);
@@ -129,8 +129,8 @@ public:
         // _finPath = phaser.fPath();
         // _combinationWidth = phaser.combinWidth();
         _finPath = _argv[1];
-        _combinationWidth = 8;
-        _elementWidth = 1;
+        _combinationWidth = 3;
+        _elementWidth = 4;
         size_t combinBytesNum = _elementWidth*_combinationWidth;
         
         FILE* fin = fopen(_finPath.c_str(), "rb");
