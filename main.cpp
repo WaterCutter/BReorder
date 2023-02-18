@@ -39,7 +39,7 @@ using namespace std;
 //     for(unsigned int i=0;i<size-combinWidth;i++)
 //         reverse(array+i*combinWidth,array+(i+1)*combinWidth);
 // }
-
+#define __DENBUG__
 class BPhaser{
 public:
     BPhaser(){
@@ -72,7 +72,10 @@ private:
     inline unsigned int getFileSize(FILE* fp){
         fseek(fp, 0L, SEEK_END);
         int fSize=ftell(fp);
-        fclose(fp);
+#ifdef __DENBUG__
+        cout<<fSize<<endl;
+#endif
+        fseek(fp, 0L, SEEK_SET);
         return fSize;
     }
     inline int checkNotAlign(int fileSize, unsigned int n){
@@ -88,13 +91,21 @@ private:
 class BReader{
 public:
     //BReader():_bufferSize(4096){};
-    inline BReader(FILE* fin, char* buffer, unsigned int buffersize = 4096){
+    inline BReader(FILE* fin, char* buffer, unsigned int buffersize){
         _fin = fin;
         _buffer = buffer;
         _bufferSize = buffersize;
     };
     inline size_t flash_buffer(){
-        size_t nRead = fread(_buffer, _bufferSize, 1, _fin);
+        size_t nRead = fread(_buffer, 1, _bufferSize, _fin);
+#ifdef __DENBUG__
+        
+        cout<<_fin<<endl;
+        for(int i=0;i<_bufferSize;i++){
+            printf("%x\n", 0xff&_buffer[i]);
+        }
+        printf("\n");
+#endif
         if(nRead != _bufferSize){
             std::fill(_buffer+nRead, _buffer+_bufferSize, 0xFF);
         };
@@ -114,6 +125,12 @@ public:
     };
     inline void reverse_with_combination(unsigned int size, unsigned int combinWidth)
     {
+#ifdef __DENBUG__
+        printf("%x-------------------------------\n",_array);
+        for(int i=0;i<size;i++){
+            printf("%x\n", 0xff&_array[i]);
+        }
+#endif
         for(unsigned int i=0;i<size-combinWidth;i++)
             reverse(_array+i*combinWidth,_array+(i+1)*combinWidth);
     }
@@ -166,17 +183,22 @@ public:
         //dealing loop
         size_t bufferSize = 1024*_combinationWidth;
         _buffer = (char*) malloc(bufferSize*sizeof(char));
-        BReader reader(fin, _buffer);
+        BReader reader(fin, _buffer, bufferSize);
         BReverser reverser(_buffer);
         BWriter writer(fout, _buffer, bufferSize);
         //reader
         while(reader.flash_buffer() != 0){
+#ifdef __DENBUG__
+            cout<< "reader" <<endl;
+            printf("%x\n",_buffer);
+#endif
             //reverser
             reverser.reverse_with_combination(bufferSize,_combinationWidth);
             //writer
             writer.doWrite();
         }
         //dealing loop end
+        free(_buffer);
     };
 
 private:
@@ -185,6 +207,7 @@ private:
         string foutPath;
         
         //making
+        foutPath = finPath+"x";
         
         return foutPath; 
     }
