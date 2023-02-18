@@ -5,7 +5,7 @@ extern "C"{
     #include <stdlib.h>
 }
 #include <algorithm>
-
+#include <vector>
 using namespace std;
 
 // void revert_with_combination(char* array, unsigned int size, unsigned int combinWidth);
@@ -109,16 +109,25 @@ private:
 
 class BReverser{
 public:
-    inline BReverser(char* array){
+    inline BReverser(char* array, size_t elemWidth, size_t combinWidth){
         _array = array;
+        _elemWidth = elemWidth;
+        _combinWidth = combinWidth;
     };
-    inline void reverse_with_combination(unsigned int size, unsigned int combinWidth)
+    inline void doReverse()
     {
-        //
-        reverse(_array,_array+size);
+        char tmpArray[_elemWidth] = {0};
+        for(int i=0;i<_combinWidth-_elemWidth;i++){
+            memcpy(tmpArray, (char*)&_array[i*_elemWidth], _elemWidth);
+            memcpy((char*)&_array[i*_elemWidth], (char*)&_array[(_combinWidth-1-i)*_elemWidth], _elemWidth);
+            memcpy((char*)&_array[(_combinWidth-1-i)*_elemWidth], tmpArray, _elemWidth);
+        }
+           
     }
 private:
     char* _array;
+    size_t _elemWidth;
+    size_t _combinWidth;
 };
 
 class BWriter{
@@ -152,12 +161,14 @@ public:
         // _finPath = phaser.fPath();
         // _combinationWidth = phaser.combinWidth();
         _finPath = _argv[1];
-        _combinationWidth = 4;
+        _combinationWidth = 8;
+        _elementWidth = 1;
+        size_t combinBytesNum = _elementWidth*_combinationWidth;
         
         FILE* fin = fopen(_finPath.c_str(), "rb");
         FILE* fout = fopen(fin_2_fout(_finPath).c_str(), "wb+");
         //checker
-        BChecker checker(fin, _combinationWidth);
+        BChecker checker(fin, combinBytesNum);
         int res = checker.doCheck();
         if(res !=0 ){ 
             cout<<"check failed: res == "<< res << endl;
@@ -165,15 +176,15 @@ public:
         };
         
         //dealing loop
-        size_t bufferSize = 4*_combinationWidth;
+        size_t bufferSize = combinBytesNum;
         _buffer = (char*) malloc(bufferSize*sizeof(char));
         BReader reader(fin, _buffer, bufferSize);
-        BReverser reverser(_buffer);
+        BReverser reverser(_buffer, _elementWidth, _combinationWidth);
         BWriter writer(fout, _buffer, bufferSize);
         //reader
         while(reader.flash_buffer() != 0){
             //reverser
-            reverser.reverse_with_combination(bufferSize,_combinationWidth);
+            reverser.doReverse();
             //writer
             writer.doWrite();
         }
