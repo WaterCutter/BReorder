@@ -142,7 +142,7 @@ class BReorder{
 public:
     BReorder(int argn, char* argv[]):
     _argn(argn), _argv(argv),
-    _domainWidth(2), _combinationWidth(1){
+    _elementWidth(1), _combinationWidth(2){
 
     };
     inline void run(){
@@ -197,7 +197,7 @@ private:
     string _finPath;
     string _foutPath;
     unsigned int _combinationWidth;
-    unsigned int _domainWidth;
+    unsigned int _elementWidth;
     
     //param list
     int _argn;

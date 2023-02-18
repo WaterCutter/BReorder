@@ -33,7 +33,7 @@ inline void run(){
 default value of parameters:
 | Element width | Combination width |
 | :---: | :---: |
-|1 Bytes | 2 Element |
+|1 Bytes | 4 Element |
 
 *ex:*
 - *brd ./a.bin*
