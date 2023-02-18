@@ -31,9 +31,9 @@ inline void run(){
 - *brd [fileDir/fileName.suffix]*
 
 default value of parameters:
-| combination width | Domain width |
+| Element width | Combination width |
 | :---: | :---: |
-|1 bytes | 2 combinations |
+|1 Bytes | 2 Element |
 
 *ex:*
 - *brd ./a.bin*
@@ -44,14 +44,14 @@ the effect of this command is just as below:
 | :---: | :---: |
 | 0x12345678 | 0x87654321 | 
 
-### 2.2 Assign Combination width
+### 2.2 Assign Element width
 you can assign n-bytes combination as follows
-- *brd -C [n] [fileDir/fileName.suffix]*\
+- *brd -E [n] [fileDir/fileName.suffix]*\
 number should be an arabic figures less than the size of input file
 
-### 2.4 Assign Domain width
+### 2.4 Assign Combination width
 n-bytes combination as follows
-- *brd -D [n]* [fileDir/fileName.suffix]
+- *brd -C [n]* [fileDir/fileName.suffix]
 
 ### 2.3 To text
 Transforming into text file
