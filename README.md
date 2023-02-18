@@ -13,6 +13,7 @@ inline void run(){
     //checker
 
     //deal loop
+        //reader
         //reverser
         //writer
     //deal loop end
