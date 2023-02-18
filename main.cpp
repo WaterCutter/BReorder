@@ -8,38 +8,6 @@ extern "C"{
 #include <vector>
 using namespace std;
 
-// void revert_with_combination(char* array, unsigned int size, unsigned int combinWidth);
-
-
-// int main(int argc, char* argv[])
-// {
-//     FILE* fin = fopen(argv[1],"rb");
-//     cout<<argv[1]<<endl;
-    
-//     string fout_name(argv[1]);
-//     fout_name += "x";
-    
-//     FILE* fout = fopen(fout_name.c_str(),"wb+");
-
-//     char* tempSpace = (char*)malloc(1024*sizeof(char));
-//     fread(tempSpace, 1024, 1, fin);
-//     for(unsigned int i=0;i<8;i++)
-//         printf("##%x\n",0xff&tempSpace[i]);
-    
-//     //revert_with_combination(tempSpace, 1024, 4);
-//     for(unsigned int i=0;i<8;i++)
-//         printf("###%x\n",0xff&tempSpace[i]);
-//     fwrite(tempSpace, 1, 32, fout);
-//     fclose(fin);
-//     fclose(fout);
-// }
-
-// void revert_with_combination(char* array, unsigned int size, unsigned int combinWidth)
-// {
-//     for(unsigned int i=0;i<size-combinWidth;i++)
-//         reverse(array+i*combinWidth,array+(i+1)*combinWidth);
-// }
-// #define __DENBUG__
 class BPhaser{
 public:
     BPhaser(){
