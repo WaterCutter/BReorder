@@ -6,6 +6,11 @@ Beyond Bytes Reorder
 - Reordering bytes in binary file
 - Transforming binary file into text file
 - Transforming text file into binary file
+### 1.2
+![category](./pics/category.png)
+
+
+### 1.3 Operation Flow
 ```c
 inline void run(){
     //phaser
