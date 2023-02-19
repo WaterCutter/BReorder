@@ -1,1 +1,1 @@
-g++ main.cpp
+g++ ./*.c main.cpp -o ./output/brd.exe -I ./include
