@@ -11,17 +11,25 @@ using namespace std;
 class BPhaser{
 public:
     BPhaser(){
-        //ctor
+        arg.add<int>("elementWidth", 'E', "element width",false);
+        arg.add<int>("groupWidth",'n',"group width",false);
+        arg.add<string>("filePath",'f',"file path",true)
+        arg.add("t",'\0',"if transform");
     }
     inline void doPhase(int argn, char* argv[]){
-
+        arg.parse_check(argn,argv);
+        _fPath=arg.get<string>("filePath");
+        _combinWidth= arg.exist("elementWidth") ? arg.get<int>("elementWidth"):arg.get<int>("groupWidth");
     };
     inline string fPath(){ return _fPath; };
     inline unsigned int combinWidth(){ return _combinWidth; };
-    
+
 private:
     string _fPath;
-    unsigned int _combinWidth; 
+    unsigned int _combinWidth;
+    cmdline::parser arg;
+
+
 };
 
 class BChecker{
