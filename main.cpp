@@ -6,29 +6,36 @@ extern "C"{
 }
 #include <algorithm>
 #include <vector>
+#include "cmdline.h"
 using namespace std;
+
 
 class BPhaser{
 public:
-    BPhaser(){
-        arg.add<int>("elementWidth", 'E', "element width",false);
-        arg.add<int>("groupWidth",'n',"group width",false);
-        arg.add<string>("filePath",'f',"file path",true)
+    BPhaser():
+    _combinWidth(4),_elementWidth(1){
+        arg.add<unsigned int>("elementWidth", 'E', "element width",false);
+        arg.add<unsigned int>("combinationWidth",'C',"group width",false);
+        arg.add<string>("filePath",'i',"file path",true);
         arg.add("t",'\0',"if transform");
+        arg.add<unsigned int>("forced", 'f', "without checking", false);
     }
     inline void doPhase(int argn, char* argv[]){
         arg.parse_check(argn,argv);
         _fPath=arg.get<string>("filePath");
-        _combinWidth= arg.exist("elementWidth") ? arg.get<int>("elementWidth"):arg.get<int>("groupWidth");
+        _elementWidth = arg.exist("elementWidth") ? arg.get<unsigned int>("elementWidth"):_combinWidth;
+        _combinWidth = arg.exist("combinationWidth") ? arg.get<unsigned int>("combinationWidth"):_combinWidth; 
     };
     inline string fPath(){ return _fPath; };
     inline unsigned int combinWidth(){ return _combinWidth; };
+    inline unsigned int elementWidth(){ return _elementWidth; };
+    inline bool isForced(){ return (arg.exist("forced")?true:false); };
 
 private:
     string _fPath;
-    unsigned int _combinWidth;
+    unsigned int _combinWidth = 4;
+    unsigned int _elementWidth = 1;
     cmdline::parser arg;
-
 
 };
 
@@ -132,24 +139,29 @@ public:
     };
     inline void run(){
         //phaser
-        // BPhaser phaser;
-        // phaser.doPhase(_argn, _argv);
-        // _finPath = phaser.fPath();
-        // _combinationWidth = phaser.combinWidth();
-        _finPath = _argv[1];
-        _combinationWidth = 3;
-        _elementWidth = 4;
+        BPhaser phaser;
+        phaser.doPhase(_argn, _argv);
+        _finPath = phaser.fPath();
+        _combinationWidth = phaser.combinWidth();
+        _elementWidth = phaser.elementWidth();
+
+        // _finPath = _argv[1];
+        // _combinationWidth = 3;
+        // _elementWidth = 4;
         size_t combinBytesNum = _elementWidth*_combinationWidth;
         
         FILE* fin = fopen(_finPath.c_str(), "rb");
         FILE* fout = fopen(fin_2_fout(_finPath).c_str(), "wb+");
         //checker
-        BChecker checker(fin, combinBytesNum);
-        int res = checker.doCheck();
-        if(res !=0 ){ 
-            cout<<"check failed: res == "<< res << endl;
-            return;
-        };
+        if(!phaser.isForced()){
+            BChecker checker(fin, combinBytesNum);
+            int res = checker.doCheck();
+            if(res !=0 ){ 
+                cout<<"alignment check failed: res == "<< res << endl;
+                return;
+            };
+        }
+        
         
         //dealing loop
         size_t bufferSize = combinBytesNum;
