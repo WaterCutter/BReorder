@@ -17,7 +17,7 @@ public:
         arg.add<unsigned int>("elementWidth", 'E', "element width",false);
         arg.add<unsigned int>("combinationWidth",'C',"group width",false);
         arg.add<string>("filePath",'i',"file path",true);
-        arg.add("t",'\0',"if transform");
+        arg.add("t",'\0',"add an output with .txt format");
         arg.add<unsigned int>("forced", 'f', "without checking", false);
     }
     inline void doPhase(int argn, char* argv[]){
@@ -145,9 +145,6 @@ public:
         _combinationWidth = phaser.combinWidth();
         _elementWidth = phaser.elementWidth();
 
-        // _finPath = _argv[1];
-        // _combinationWidth = 3;
-        // _elementWidth = 4;
         size_t combinBytesNum = _elementWidth*_combinationWidth;
         
         FILE* fin = fopen(_finPath.c_str(), "rb");
@@ -161,7 +158,6 @@ public:
                 return;
             };
         }
-        
         
         //dealing loop
         size_t bufferSize = combinBytesNum;

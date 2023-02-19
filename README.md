@@ -6,7 +6,8 @@ Beyond Bytes Reorder
 - Reordering bytes in binary file
 - Transforming binary file into text file
 - Transforming text file into binary file
-### 1.2
+
+### 1.2 Category
 ![category](./pics/category.png)
 
 
@@ -15,10 +16,11 @@ Beyond Bytes Reorder
 inline void run(){
     //phaser
 
-    //checker
-
     //deal loop
         //reader
+        /*if (!isForced()){
+            //checker
+        }*/
         //reverser
         //writer
     //deal loop end
@@ -27,6 +29,14 @@ inline void run(){
 ```
 ## 2 Usage
 
+| options | long | desc | 
+| --- | --- | --- |
+| -E | --elementWidth | element width (unsigned int [=0]) |
+| -C | --combinationWidth | group width (unsigned int [=0]) |
+| -i | --filePath | file path (string) |
+| -t | add an output with .txt format | 
+| -f | --forced | without checking (unsigned int [=0]) |
+| -? | --help | print this message |
 ### 2.1 Default 
 - *brd [fileDir/fileName.suffix]*
 
@@ -54,7 +64,7 @@ n-bytes combination as follows
 - *brd -C [n]* [fileDir/fileName.suffix]
 
 ### 2.3 To text
-Transforming into text file
+add an output file with .txt format 
 - *brd -t [fileDir/fileName.suffix]*
 
 ## 3 Ouput
